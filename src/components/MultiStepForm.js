@@ -170,9 +170,11 @@ const MultiStepForm = () => {
           >
             <option value="">--Select--</option>
             <option>English</option>
-            <option>Spanish</option>
             <option>Chinese</option>
-            <option>French</option>
+            <option>Japanese</option>
+            <option>Korean</option>
+            <option>Chinglish</option>
+            <option>Fake Alien Language that Only You Know</option>
             <option>Other</option>
           </select>
 
