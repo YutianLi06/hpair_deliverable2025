@@ -131,3 +131,9 @@ input:focus, select:focus, textarea:focus {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.error {
+  color: #e63946;
+  font-size: 0.9rem;
+  margin: 5px 0 10px;
+}
