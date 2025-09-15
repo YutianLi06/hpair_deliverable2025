@@ -144,13 +144,23 @@ const MultiStepForm = () => {
             required
           />
 
-          <label>LinkedIn URL *</label>
-          <input
-            type="url"
-            value={formData.linkedin || ""}
-            onChange={e => setFormData({ ...formData, linkedin: e.target.value })}
-            required
-          />
+         <label>LinkedIn URL *</label>
+<input
+  type="url"
+  value={formData.linkedin || ""}
+  onChange={e => setFormData({ ...formData, linkedin: e.target.value })}
+  required
+  onBlur={e => {
+    if (!e.target.value.startsWith("http")) {
+      e.target.setCustomValidity("Please enter a valid LinkedIn URL (must start with http).");
+    } else {
+      e.target.setCustomValidity("");
+    }
+  }}
+/>
+{formData.linkedin && !formData.linkedin.startsWith("http") && (
+  <p className="error">⚠️ LinkedIn URL must start with http(s)://</p>
+)}
 
           <label>Preferred Language *</label>
           <select
