@@ -38,7 +38,7 @@ const Login = ({ onLogin }) => {
     <div className="container">
       <div className="form-container">
         <h1>{isLogin ? 'Login' : 'Register'}</h1>
-        <p>{isLogin ? 'Sign in to access the form challenge' : 'Create an account to get started'}</p>
+        <p>{isLogin ? 'Sign in to access the best info form you will ever see' : 'Create an account to get started'}</p>
 
         {message && (
           <div className={`submit-message ${message.includes('successful') ? 'success' : 'error'}`}>
