@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PersonalInfoStep from './steps/PersonalInfoStep';
 import { submitForm, getFormSubmissions, getSubmissionCount } from '../services/firebaseService';
 import { useAuth } from '../contexts/AuthContext';
 import { signOutUser } from '../services/authService';
@@ -32,7 +31,6 @@ const MultiStepForm = () => {
       ]);
 
       if (submissionsResult.success) {
-        // Show only current user's submissions
         const userSubmissions = submissionsResult.data.filter(
           submission => submission.userId === userId
         );
@@ -52,28 +50,22 @@ const MultiStepForm = () => {
     }
   };
 
-  // TODO: Implement form validation using Formik and Yup
-  // TODO: Implement form data handling
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage('');
-    
+
     try {
-      // TODO: Add validation before submitting
       const submissionData = {
         ...formData,
         userId: userId
       };
-      
+
       const result = await submitForm(submissionData);
-      
+
       if (result.success) {
-        setSubmitMessage('Form submitted successfully!');
-        // Reset form
+        setSubmitMessage('🎉 Thank you for submitting the form!');
         setFormData({});
-        // Reload submissions to show the new one
         loadSubmissions();
       } else {
         setSubmitMessage(result.message);
@@ -110,20 +102,89 @@ const MultiStepForm = () => {
         }}>
           <strong>Logged in as:</strong> {user.email}
         </div>
-        
-        <form onSubmit={handleSubmit}>
-          <PersonalInfoStep 
-            formData={formData} 
-            setFormData={setFormData} 
+
+        {/* Main Form */}
+        <form onSubmit={handleSubmit} noValidate>
+          <label>Full Name *</label>
+          <input
+            type="text"
+            value={formData.fullname || ""}
+            onChange={e => setFormData({ ...formData, fullname: e.target.value })}
+            required
           />
-          
+
+          <label>Email *</label>
+          <input
+            type="email"
+            value={formData.email || ""}
+            onChange={e => setFormData({ ...formData, email: e.target.value })}
+            required
+          />
+
+          <label>Phone Number *</label>
+          <input
+            type="tel"
+            value={formData.phone || ""}
+            onChange={e => setFormData({ ...formData, phone: e.target.value })}
+            required
+          />
+
+          <label>Address *</label>
+          <textarea
+            value={formData.address || ""}
+            onChange={e => setFormData({ ...formData, address: e.target.value })}
+            required
+          />
+
+          <label>Nationality *</label>
+          <input
+            type="text"
+            value={formData.nationality || ""}
+            onChange={e => setFormData({ ...formData, nationality: e.target.value })}
+            required
+          />
+
+          <label>LinkedIn URL *</label>
+          <input
+            type="url"
+            value={formData.linkedin || ""}
+            onChange={e => setFormData({ ...formData, linkedin: e.target.value })}
+            required
+          />
+
+          <label>Preferred Language *</label>
+          <select
+            value={formData.language || ""}
+            onChange={e => setFormData({ ...formData, language: e.target.value })}
+            required
+          >
+            <option value="">--Select--</option>
+            <option>English</option>
+            <option>Spanish</option>
+            <option>Chinese</option>
+            <option>French</option>
+            <option>Other</option>
+          </select>
+
+          <label>Upload CV *</label>
+          <input
+            type="file"
+            onChange={e => setFormData({ ...formData, cv: e.target.files[0] })}
+            required
+          />
+
           {submitMessage && (
-            <div className={`submit-message ${submitMessage.includes('successfully') ? 'success' : 'error'}`}>
+            <div
+              className={`submit-message ${
+                submitMessage.includes('Thank you') ? 'success' : 'error'
+              }`}
+              style={{ marginTop: '15px', fontWeight: 'bold' }}
+            >
               {submitMessage}
             </div>
           )}
-          
-          <div className="form-actions">
+
+          <div className="form-actions" style={{ marginTop: '20px' }}>
             <button
               type="submit"
               className="btn btn-primary"
@@ -173,11 +234,15 @@ const MultiStepForm = () => {
                       {formatDate(submission.submittedAt)}
                     </span>
                   </div>
-              <div className="submission-details">
-                <p><strong>Name:</strong> {submission.firstName} {submission.lastName}</p>
-                <p><strong>Date of Birth:</strong> {submission.dateOfBirth}</p>
-                <p><strong>Gender:</strong> {submission.gender}</p>
-              </div>
+                  <div className="submission-details">
+                    <p><strong>Name:</strong> {submission.fullname}</p>
+                    <p><strong>Email:</strong> {submission.email}</p>
+                    <p><strong>Phone:</strong> {submission.phone}</p>
+                    <p><strong>Address:</strong> {submission.address}</p>
+                    <p><strong>Nationality:</strong> {submission.nationality}</p>
+                    <p><strong>LinkedIn:</strong> {submission.linkedin}</p>
+                    <p><strong>Language:</strong> {submission.language}</p>
+                  </div>
                 </div>
               ))}
             </div>
