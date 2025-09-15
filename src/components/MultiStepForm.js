@@ -91,7 +91,7 @@ const MultiStepForm = () => {
             Logout
           </button>
         </div>
-        <p>Please provide your basic personal details.</p>
+        <p>Please provide your basic personal details so that I can stalk you jk jk.</p>
         
         <div style={{ 
           marginBottom: '20px', 
